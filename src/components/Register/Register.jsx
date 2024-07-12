@@ -13,13 +13,18 @@ const Register = () => {
 
         const email = e.target.email.value;
         const pass = e.target.password.value;
-        console.log(email, pass);
+        const terms = e.target.terms.checked;
+        console.log(terms);
 
         setError('');
         setSuccess('');
 
         if (pass.length < 6) {
             setError('Password must be 6 characters long minimum!');
+            return
+        }
+        else if (!terms) {
+            setError('accept our terms and condition first!');
             return
         }
 
@@ -75,6 +80,10 @@ const Register = () => {
                             }
                         </span>
                     </label>
+                    <div className='pb-2'>
+                        <input className='mr-1' type="checkbox" name="terms" id="terms" />
+                        <label htmlFor="terms">accept terms and conditions</label>
+                    </div>
                     <input type="submit" value="Register" className="btn btn-active btn-accent" />
                 </form>
                 {

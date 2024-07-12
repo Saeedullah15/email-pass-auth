@@ -46,7 +46,8 @@ const DaisyRegister = () => {
                             </label>
                             <input type="password" name='password' placeholder="password" className="input input-bordered" required />
                             <label className="label">
-                                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                                <input type="checkbox" name="terms" id="terms" />
+                                <a className="label-text-alt link link-hover">Accept terms and conditions</a>
                             </label>
                         </div>
                         <div className="form-control mt-6">
