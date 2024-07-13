@@ -30,7 +30,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/daisyRegister",
-                element: <DaisyRegister></DaisyRegister>
+                element: <DaisyRegister></DaisyRegister>,
             }
         ]
     },

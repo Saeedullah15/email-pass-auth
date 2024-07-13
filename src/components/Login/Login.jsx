@@ -1,21 +1,51 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import React from 'react';
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import auth from '../../firebase/firebase.config';
 
 const Login = () => {
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const emailRef = useRef(null);
+
     const handleLogin = (e) => {
         e.preventDefault();
 
         const email = e.target.email.value;
         const pass = e.target.password.value;
 
+        setError('');
+        setSuccess('');
+
         signInWithEmailAndPassword(auth, email, pass)
             .then(result => {
                 const user = result.user;
                 console.log(user);
+
+                if (user.emailVerified) {
+                    setSuccess("User verified and logged in successfully!");
+                }
+                else {
+                    alert("Email is not verified!");
+                }
             })
             .catch(error => {
                 console.error(error);
+                setError(error.message);
+            })
+    }
+
+    const handleResetPass = () => {
+        const email = emailRef.current.value;
+        console.log(email);
+
+        sendPasswordResetEmail(auth, email)
+            .then(result => {
+                setSuccess("Check your email for password reset!")
+            })
+            .catch(error => {
+                console.error(error);
+                setError(error.message);
             })
     }
 
@@ -37,20 +67,29 @@ const Login = () => {
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
-                            <input type="email" name='email' placeholder="email" className="input input-bordered" required />
+                            <input type="email" ref={emailRef} name='email' placeholder="email" className="input input-bordered" required />
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
                             <input type="password" name='password' placeholder="password" className="input input-bordered" required />
-                            <label className="label">
+                            <label onClick={handleResetPass} className="label">
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                             </label>
+                        </div>
+                        <div>
+                            <p>Didn't have any account? Please <Link to="/register" className='text-blue-600'>Register!</Link></p>
                         </div>
                         <div className="form-control mt-6">
                             <button type='submit' className="btn btn-primary">Login</button>
                         </div>
+                        {
+                            error && <p className='text-red-600'>{error}</p>
+                        }
+                        {
+                            success && <p className='text-green-700'>{success}</p>
+                        }
                     </form>
                 </div>
             </div>

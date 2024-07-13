@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import auth from '../../firebase/firebase.config';
 
 const DaisyRegister = () => {
@@ -49,6 +50,9 @@ const DaisyRegister = () => {
                                 <input type="checkbox" name="terms" id="terms" />
                                 <a className="label-text-alt link link-hover">Accept terms and conditions</a>
                             </label>
+                            <div>
+                                <p>Already have an account? <Link to="/login" className='text-blue-600'>Login!</Link></p>
+                            </div>
                         </div>
                         <div className="form-control mt-6">
                             <button className="btn btn-primary">Register</button>
